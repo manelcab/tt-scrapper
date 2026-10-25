@@ -12,7 +12,8 @@
 - **Node + wrangler**: Node LTS en `.node/` y `wrangler` en `node_modules/`
   (instalados sin root). wrangler habla con la D1 `tt-data`.
 - **Cron** (`crontab -l`): ejecuta `cron.sh` (ver abajo).
-- **nginx en Docker** (`web/`): sirve el report en `127.0.0.1:8088/status/jobs/`.
+- **Publicación del report**: se EMPUJA a Kayzen con un `PUT` desde `run_all.sh`
+  (ver más abajo). nginx en Docker (`deploy/web/`) queda como visor local opcional.
 
 El código es el mismo del repo; la única adaptación es que la ruta de wrangler
 se toma de `TTS_WRANGLER_CWD` (commit "ruta de wrangler configurable"), porque en
@@ -22,8 +23,10 @@ el VPS no existe el monorepo `apps/api`.
 
 - **`env.sh`**: entorno para cron/ejecución. Exporta `PATH` (node), `TTS_WRANGLER_CWD`,
   `SEASON`, `NODE_OPTIONS`, `CLOUDFLARE_ACCOUNT_ID`, y sourcea el secreto.
-- **`~/.tt-scrapper-secrets`** (chmod 600, fuera del repo): `export CLOUDFLARE_API_TOKEN="..."`.
-  Token de API de Cloudflare con permiso **Account · D1 · Edit**.
+- **`~/.tt-scrapper-secrets`** (chmod 600, fuera del repo): los secretos.
+  - `export CLOUDFLARE_API_TOKEN="..."` — token de API de Cloudflare, permiso **Account · D1 · Edit**.
+  - `export KAYZEN_REPORT_TOKEN="..."` — token del buzón del report (lo da Kayzen).
+  - `export KAYZEN_REPORT_URL="https://kayzen-status.<sub>.workers.dev/ingest"` — URL del buzón.
 - **`wrangler.toml`**: mínimo (la D1 `tt-data` se resuelve por nombre).
 - **`cron.sh`**: wrapper de cron (entorno + `flock` anti-solape + log a
   `output/logs/cron.log`).
@@ -50,8 +53,13 @@ curl -fsSL "https://nodejs.org/dist/$VER/node-$VER-linux-x64.tar.xz" -o /tmp/nod
 mkdir .node && tar xf /tmp/node.tar.xz -C .node --strip-components=1 && rm /tmp/node.tar.xz
 export PATH=/home/manu/tt-scrapper/.node/bin:$PATH && npm install wrangler
 
-# 4) env.sh + wrangler.toml + secreto (ver "Ficheros propios"), y:
-echo 'export CLOUDFLARE_API_TOKEN="<token>"' > ~/.tt-scrapper-secrets && chmod 600 ~/.tt-scrapper-secrets
+# 4) env.sh + wrangler.toml + secretos (ver "Ficheros propios"), y:
+cat > ~/.tt-scrapper-secrets <<'EOF'
+export CLOUDFLARE_API_TOKEN="<token>"
+export KAYZEN_REPORT_TOKEN="<token-del-buzon>"
+export KAYZEN_REPORT_URL="https://kayzen-status.<sub>.workers.dev/ingest"
+EOF
+chmod 600 ~/.tt-scrapper-secrets
 
 # 5) Prueba:
 . ./env.sh && ./node_modules/.bin/wrangler d1 execute tt-data --remote --command "select 1"
@@ -80,17 +88,35 @@ ejecuciones) y lanza `scripts/run_all.sh`, registrando en `output/logs/cron.log`
 
 - Lo genera `scripts/run_all.sh` (paso final `build_report.py`) en
   `output/reports/latest.html` (+ `report_<stamp>.html` con histórico).
-- Se publica con **nginx en Docker** (`web/docker-compose.yml` + `web/nginx.conf`),
-  atado a **`127.0.0.1:8088`** (NO a 0.0.0.0: los puertos 80/443 del VPS ya están
-  en uso y, sobre todo, no se expone a internet directamente).
+
+### Publicación: se EMPUJA a Kayzen (no túnel)
+
+Kayzen descartó el túnel (la zona `gravityplayers.net` no está en Cloudflare) y
+montó un buzón: tras cada pasada, `run_all.sh` hace un **`PUT`** del
+`latest.html` y Kayzen lo sirve detrás del rol de admin en
+`https://kaizen.gravityplayers.net/status/jobs`. El VPS no expone nada. Detalles
+en `design/PARA-TT-SCRAPER-report.md`.
+
+- URL y token del buzón van en **`~/.tt-scrapper-secrets`** (fuera del repo):
+
+  ```bash
+  export KAYZEN_REPORT_TOKEN="…"                              # lo da Kayzen
+  export KAYZEN_REPORT_URL="https://kayzen-status.<sub>.workers.dev/ingest"
+  ```
+
+  `env.sh` las *sourcea* y exporta; `run_all.sh` empuja solo si están puestas.
+  Un fallo del `PUT` **no aborta** la pasada (el siguiente empujón lo arregla).
+  Para probar sin empujar: `bash scripts/run_all.sh --no-push`.
+
+### Visor local (opcional)
+
+nginx en Docker (`deploy/web/`), atado a **`127.0.0.1:8088`**, por si quieres
+mirar el report en local. Ya no es la fuente de nada:
 
 ```bash
-cd /home/manu/tt-scrapper/web && docker compose up -d     # arrancar
+cd /home/manu/tt-scrapper/deploy/web && docker compose up -d
 # report en http://127.0.0.1:8088/status/jobs/  (solo localhost)
 ```
-
-La publicación segura **a internet** la hace Cloudflare Tunnel; la parte de
-Cloudflare está documentada para Kayzen en `design/PARA-KAYZEN-report-status.md`.
 
 ## Actualizar el código en el VPS
 

@@ -1,10 +1,12 @@
-# Publica el report de estado de cargas (output/reports/latest.html) por HTTP.
-# nginx se ata SOLO a localhost:8088 (no a 0.0.0.0): el puerto no se expone a
-# internet; la publicación segura la hace Cloudflare Tunnel (ver
-# design/PARA-KAYZEN-report-status.md). Los puertos 80/443 del VPS ya están en
-# uso, otra razón para no tocarlos.
+# Visor LOCAL (opcional) del report de estado de cargas (output/reports/latest.html).
 #
-# Uso (desde /home/manu/tt-scrapper/web):
+# Ya NO es la fuente de nada: la publicación la hace Kayzen, y el report se le
+# EMPUJA con un PUT desde el cron (run_all.sh → kaizen.gravityplayers.net/status/jobs).
+# Ver design/PARA-TT-SCRAPER-report.md. Este nginx queda solo por si quieres mirar
+# el report en local sin salir a internet: se ata a 127.0.0.1:8088 (no se expone),
+# sin túnel ni cloudflared.
+#
+# Uso (desde /home/manu/tt-scrapper/deploy/web):
 #   docker compose up -d        # arranca
 #   docker compose down         # para
 # El report se sirve en  http://127.0.0.1:8088/status/jobs/
@@ -17,20 +19,5 @@ services:
       - "127.0.0.1:8088:80"
     volumes:
       # El report lo regenera el cron en output/reports; se monta solo-lectura.
-      - ../output/reports:/srv/reports:ro
+      - ../../output/reports:/srv/reports:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-
-  # Publicación segura vía Cloudflare Tunnel (sin abrir puertos de entrada).
-  # Lo activa Kayzen dándonos el TOKEN del túnel (ver
-  # design/PARA-KAYZEN-report-status.md). Hasta entonces queda comentado.
-  # Con token: crear web/.cloudflared.env con  TUNNEL_TOKEN=...  y
-  #   docker compose --profile tunnel up -d
-  # cloudflared:
-  #   image: cloudflare/cloudflared:2025.8.1
-  #   container_name: tt-cloudflared
-  #   restart: unless-stopped
-  #   profiles: ["tunnel"]
-  #   command: tunnel --no-autoupdate run
-  #   env_file: ./.cloudflared.env         # TUNNEL_TOKEN=...
-  #   depends_on: [report]
-  #   # El túnel apunta al nginx por la red interna del compose: http://report:80
