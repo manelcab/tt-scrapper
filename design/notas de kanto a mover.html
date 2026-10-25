@@ -1,0 +1,65 @@
+> kayzen
+
+
+BD Conocimiento
+- La base de datos de conocimiento está en construcción, cuando esté lista el agente la podrá utilizar como fuente addicional de información (técnica, táctica, saques, jugadas, ..)
+
+
+<COMPLETAR con FTOOS></COMPLETAR>
+Look & feel  - UX
+Tipo avatar .. mirar fotos
+
+<Pregunta tipica chirp> --> jobs en batch, si hay inputs (resultados, narrativas) entre el lm y analiza sino no. 
+- del modelo de preguntar abierta evaluiar si abrirlo o abrirlo solo reomium, porque es lento y puede ser caro, o poner techo
+    QUe alienaciones más habituales de jugadores hay para este equipo? ... --> Muy bueno, ye studiar cada uno de los jugadores ...
+</Pregunta>
+
+Nota kayzen >> memory.update se dispara tras analizar partidos, 
+
+
+Modulo mental - puede ser un plus que se paga aparte y conectado con David Soler ...
+- Trabajarlo de todas todas con David
+
+
+Promoción:
+- Modo fremium: que te hagan promoción, en insta o lo que sea ( tipo gembu matcha, ) si comparten entonces le das un bono...
+- Si compartes el plan técnico del partido (sin nombres reales), entonces tienes otro bono para tener más creditos .., facilitar la captura y luego los admins lo revisan, además tiene que etiquetar .. el plan de partido puede ser una infogrfia guapa tipo notebooklm
+- Fremium - ofrecer un plan de mejora, tener un tastet de lagunas cosas para que sea el funnel y así paguen
+
+Banda
+- Tus compañeros hacen banda, explican el tema, y entonces la IA analiza y proprociona opciones, pero claro los compañeros no tiene acceso, o bien el usuario puede dar permisos a otros usuarios a que hagan sus narrativas de partido "de mi" y que eso luego ayuda a mis compañeros a ahcerme banda.
+
+
+
+> Pantalla agente
+
+
+> estado
+
+Arranca la fase 6 ?, validar si es un worker distinto del de kayzen y ver como sincronizar el estado y next steps de los dos proyectos.
+
+Siguiente etapa (ya no es carga): fase 6 — el Worker de lectura dedicado con binding a tt-data, que exponga ficha de jugador, ranking por categoría/edición, head-to-head, alineación por equipo y la búsqueda FTS5, para que lo consuman Kanto y la app agéntica. Luego fase 7 (consumo en Kanto) y fase 8 (retirar Firestore).
+
+>
+
+
+# Futura funcionalidad para Admin
+- He añadido el mail de club de roda de ter a un grupo "Clubs", de esa forma los mails de clubs los asociamos a esa categoría y los tendremos agrupados para si queremos hacer una comunicación via mail o lo que sea
+- Por otro lado en la sección de comunicaciones, cuando se crea una comunicación puntual actualmente se puede distinguir si se envia a jugadores, seguidores, los dos o bien seleccionar destinatarios concretos, quiero que se pueda
+
+
+# Sergio
+- Registro inlive de partidos para territorial!!! ., puedo hacer también algo con electrónica ??
+- comentar caso de uso de ranquing:
+Sobre Oscar Sacristán, con datos de verdad: 180 partidos, 141 victorias, y el análisis dice que gana por término medio a rivales 372 puntos por debajo, con solo 8 victorias por encima de su nivel y 28 derrotas por debajo. Eso es exactamente la diferencia entre «gana mucho» y «gana mucho, pero…» que prometía la §27.
+
+# Kanto v2
+- Mejora de Kanto - seguridad:
+Kanto identifica la sesión con la cabecera x-user-id, que envía el cliente (ttwin/apps/api/src/index.ts:559). Es identidad afirmada por el cliente: basta cambiar esa cabecera para actuar como otro usuario. Su propio cloudflare_deploy.md lo lista como pendiente de endurecer.
+
+- Tour de explicación, una historia de usuario para que vean el proceso del organizador y el jugador, una especie de minicomic
+
+- Analizar porque a los organizadores se resiten, lo ven xulo pero no lo utilizan..
+
+
+Backup

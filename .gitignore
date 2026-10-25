@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node / wrangler (se instalan en el host, no se versionan)
+.node/
+node_modules/
+package-lock.json
+package.json
+
+# Datos generados: sql, reports, logs, pdfs, caché de hashes
+output/
+
+# Secretos y config con credenciales (NUNCA versionar)
+.env
+.env.*
+credentials/*.json
+.tt-scrapper-secrets
+.cloudflared.env
+web/.cloudflared.env

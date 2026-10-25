@@ -1,0 +1,36 @@
+rules_version = '2';
+
+// Reglas del proyecto de competiciones (gravity-scrapper-pro).
+//
+// Todo lo que hay aquí es información pública: resultados de liga y rànquings
+// publicados por las federaciones. La app los lee **sin autenticarse** —este
+// proyecto no tiene usuarios; la auth y los datos de jugador viven en otro—,
+// así que la lectura tiene que ser abierta o el Módulo 8 no funciona.
+//
+// La escritura la hace el scraper con una service account, y el Admin SDK se
+// salta las reglas: por eso aquí se deniega sin excepciones.
+//
+// Desplegar:  firebase deploy --only firestore:rules --project gravity-scrapper-pro
+// (o pegar el contenido en Consola de Firebase → Firestore → Reglas)
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Resultados de liga: competitions/{competición}/categories/…/groups/…
+    match /competitions/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Rànquings: rankings/{competición}/players/… y /editions/…
+    match /rankings/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Todo lo demás, cerrado.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

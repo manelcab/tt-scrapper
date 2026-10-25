@@ -1,0 +1,65 @@
+<!-- Recorte de una página de jornada de fctt.cat con los tres casos difíciles:
+       1. Encuentro normal: individuales + doble, acta en el mismo orden que la cabecera
+       2. Incomparecencia: cabecera con 5-0 y SIN tabla de acta
+       3. Acta girada: la tabla lista los equipos al revés que la cabecera
+     Además: cabecera de temporada, navegación de jornadas y clasificación. -->
+<html>
+<body>
+  <p>Temporada 2025/2026</p>
+
+  <div class="jornada-nav">
+    <a href="?jornada=1">1</a>
+    <a href="?jornada=2">2</a>
+    <a href="?jornada=3">3</a>
+  </div>
+
+  <table class="br-apic-resultats">
+    <tr><th>EQUIP</th><th>EJ</th><th>EG</th><th>EP</th><th>PF</th><th>PC</th><th>PUNTS</th></tr>
+    <tr><td>1</td><td>CTT VILASSAR</td><td>12</td><td>12</td><td>0</td><td>55</td><td>5</td><td>24</td></tr>
+    <tr><td>2</td><td>C.T.T. ATENEU 1882</td><td>12</td><td>7</td><td>5</td><td>40</td><td>27</td><td>14</td></tr>
+    <tr><td>3</td><td>C.T.T.VILANOVA</td><td>12</td><td>1</td><td>11</td><td>15</td><td>52</td><td>2</td></tr>
+  </table>
+
+  <!-- 1. Encuentro normal, con doble en la última fila -->
+  <div class="match-header">22/11/2025 10:00 CTT VILASSAR 3 - 2 C.T.T. ATENEU 1882</div>
+  <table class="match-results-table">
+    <tr><th></th><th>CTT VILASSAR</th><th></th><th>C.T.T. ATENEU 1882</th>
+        <th>J1</th><th>J2</th><th>J3</th><th>J4</th><th>J5</th><th>Res.</th><th>Global</th></tr>
+    <tr><td>A</td><td><a href="?codi_jugador=101&amp;jugador_nom=CUMPLIDO">CUMPLIDO CHACON, GUADALUPE</a></td>
+        <td>Y</td><td><a href="?codi_jugador=201&amp;jugador_nom=OSUNA">OSUNA CRUZ, LOLA</a></td>
+        <td>11-2</td><td>11-7</td><td>11-7</td><td></td><td></td><td>3 - 0</td><td>1 - 0</td></tr>
+    <tr><td>B</td><td><a href="?codi_jugador=102&amp;jugador_nom=CALAVIA">CALAVIA DE ORBE, NURIA</a></td>
+        <td>X</td><td><a href="?codi_jugador=202&amp;jugador_nom=CARRENO">CARREÑO PASTOR, ARIADNA</a></td>
+        <td>10-12</td><td>4-11</td><td>9-11</td><td></td><td></td><td>0 - 3</td><td>1 - 1</td></tr>
+    <tr><td>A</td><td><a href="?codi_jugador=101&amp;jugador_nom=CUMPLIDO">CUMPLIDO CHACON, GUADALUPE</a></td>
+        <td>X</td><td><a href="?codi_jugador=202&amp;jugador_nom=CARRENO">CARREÑO PASTOR, ARIADNA</a></td>
+        <td>11-5</td><td>9-11</td><td>11-6</td><td>11-9</td><td></td><td>3 - 1</td><td>2 - 1</td></tr>
+    <tr><td>B</td><td><a href="?codi_jugador=102&amp;jugador_nom=CALAVIA">CALAVIA DE ORBE, NURIA</a></td>
+        <td>Y</td><td><a href="?codi_jugador=201&amp;jugador_nom=OSUNA">OSUNA CRUZ, LOLA</a></td>
+        <td>6-11</td><td>7-11</td><td>7-11</td><td></td><td></td><td>0 - 3</td><td>2 - 2</td></tr>
+    <tr><td>Db</td>
+        <td><a href="?codi_jugador=101&amp;jugador_nom=CUMPLIDO">CUMPLIDO CHACON, GUADALUPE</a>
+            <a href="?codi_jugador=102&amp;jugador_nom=CALAVIA">CALAVIA DE ORBE, NURIA</a></td>
+        <td>Db</td>
+        <td><a href="?codi_jugador=201&amp;jugador_nom=OSUNA">OSUNA CRUZ, LOLA</a>
+            <a href="?codi_jugador=202&amp;jugador_nom=CARRENO">CARREÑO PASTOR, ARIADNA</a></td>
+        <td>11-9</td><td>8-11</td><td>8-11</td><td>11-6</td><td>11-8</td><td>3 - 2</td><td>3 - 2</td></tr>
+  </table>
+
+  <!-- 2. Incomparecencia: resultado sin acta -->
+  <div class="match-header">22/11/2025 12:00 CTT VILASSAR 5 - 0 C.T.T.VILANOVA</div>
+
+  <!-- 3. Acta girada respecto a la cabecera -->
+  <div class="match-header">19/12/2025 19:00 C.T.T.VILANOVA 0 - 2 C.T.T. ATENEU 1882</div>
+  <table class="match-results-table">
+    <tr><th></th><th>C.T.T. ATENEU 1882</th><th></th><th>C.T.T.VILANOVA</th>
+        <th>J1</th><th>J2</th><th>J3</th><th>J4</th><th>J5</th><th>Res.</th><th>Global</th></tr>
+    <tr><td>A</td><td><a href="?codi_jugador=201&amp;jugador_nom=OSUNA">OSUNA CRUZ, LOLA</a></td>
+        <td>Y</td><td><a href="?codi_jugador=301&amp;jugador_nom=SOLE">SOLÉ MARTÍ, ROSA</a></td>
+        <td>11-4</td><td>11-6</td><td>11-8</td><td></td><td></td><td>3 - 0</td><td>1 - 0</td></tr>
+    <tr><td>B</td><td><a href="?codi_jugador=202&amp;jugador_nom=CARRENO">CARREÑO PASTOR, ARIADNA</a></td>
+        <td>X</td><td><a href="?codi_jugador=302&amp;jugador_nom=RIBA">RIBA COSTA, ANNA</a></td>
+        <td>11-3</td><td>11-5</td><td>11-9</td><td></td><td></td><td>3 - 0</td><td>2 - 0</td></tr>
+  </table>
+</body>
+</html>

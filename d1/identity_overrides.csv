@@ -1,0 +1,19 @@
+# Correcciones manuales de identidad de persona (design/plan_identidad_persona.md, paso 6).
+# Las lee d1/build_person.py en cada pase y mandan sobre lo deducido.
+#
+# Una línea por decisión. Columnas:
+#   federation_a,lic_a,federation_b,lic_b,decision,decided_by,note
+#   decision   = confirmed | rejected
+#     confirmed: fuerza que las dos licencias sean la MISMA persona
+#                (status=confirmed, evidence=manual); puede fusionar dos personas.
+#     rejected:  impide que se junten por deducción 'probable' (nombre+club).
+#   decided_by = admin:<quien>   (p. ej. admin:manel)
+#   note       = texto libre (opcional)
+#
+# Para CAMBIAR una decisión, edita su línea (no la borres): al reinsertarse
+# actualiza. Las líneas que empiezan por # y las vacías se ignoran.
+#
+# Ejemplo (borrar al usar):
+# FCTT,12345,RFETM,98765,confirmed,admin:manel,el mismo jugador
+# FCTT,4024,RFETM,41228,rejected,admin:manel,dos GRANADOS Claudio distintos (Tona)
+federation_a,lic_a,federation_b,lic_b,decision,decided_by,note
